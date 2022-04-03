@@ -16,11 +16,21 @@
 
 Die globalen Parameter werden hier kurz beschrieben:
 
+* Die Standard WLAN SSID ```CPRD```
+* Das Standard WLAN Passwort ist ```CPRD_password```
+* Settings Authentifizierung
+  Benutzer: ```admin```
+  Passwort: ```admin```
+* Update (OTA) Authentifizierung
+  Benutzer: ```admin```
+  Passwort: ```tobedefined```
 * Buttons
+
   * Speichern -> Speichern der Parameter im EEPROM
   * Start -> Starte mit den aktuell sichtbaren Parametern
   * Abbrechen -> Veränderungen rückgängig machen (nur solange nicht gespeichert wurde)
 * Parameter (x)
+
   * Jeglicher Parameter kann mittels dem Schieberegler konfiguriert werden.
     Der aktuelle Wert wird im Text angezeigt.
 
