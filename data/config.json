@@ -1,0 +1,84 @@
+{
+  "pulseID": 4,
+  "Puls":
+  [
+    {
+      "name": "Fötus",
+      "pulseStrength": 10,
+      "pulseTimeGap": 1,
+      "pulseFrequence": 150,
+      "pulseDuration": 2
+    },
+    {
+      "name": "Neugeborenes",
+      "pulseStrength": 20,
+      "pulseTimeGap": 1,
+      "pulseFrequence": 120,
+      "pulseDuration": 2
+    },
+    {
+      "name": "Kindergarten",
+      "pulseStrength": 30,
+      "pulseTimeGap": 1,
+      "pulseFrequence": 100,
+      "pulseDuration": 2
+    },
+    {
+      "name": "Jugendlich",
+      "pulseStrength": 30,
+      "pulseTimeGap": 1,
+      "pulseFrequence": 85,
+      "pulseDuration": 2
+    },
+    {
+      "name": "Erwachsen",
+        "pulseStrength": 30,
+        "pulseTimeGap": 1,
+        "pulseFrequence": 60,
+        "pulseDuration": 2
+    },
+    {
+      "name": "Senior",
+        "pulseStrength": 30,
+        "pulseTimeGap": 1,
+        "pulseFrequence": 70,
+        "pulseDuration": 2
+    },
+    {
+      "name": "Sportler",
+        "pulseStrength": 50,
+        "pulseTimeGap": 1,
+        "pulseFrequence": 30,
+        "pulseDuration": 2
+    },
+    {
+      "name": "Schwanger",
+        "pulseStrength": 30,
+        "pulseTimeGap": 1,
+        "pulseFrequence": 80,
+        "pulseDuration": 2
+    },
+    {
+      "name": "Störung",
+        "pulseStrength": 30,
+        "pulseTimeGap": 1,
+        "pulseFrequence": 80,
+        "pulseTrouble": 5,
+        "pulseDuration": 2
+    }
+  ],
+  "Blut":
+  {
+    "Start": 10,
+    "Durchlauf": 60
+  },
+  "Lunge":
+  {
+    "Start": 1,
+    "Durchlauf": 60    
+  },
+  "Temperatur":
+  {
+    "Durchlauf": 20
+  }
+}

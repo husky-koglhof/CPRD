@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  .mb-3 {
+    padding-right: 5px;
+  }
+</style>
+</head>
+<body>
+
+    <div class="bd-example bd-examples">
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="pulse-tab" role="tabpanel" aria-labelledby="pulse-tab">
+                <div class="my-buttons" id="ranges" style="margin-left: 0px;padding-right: 5px;">
+                    <button id="relay1" type="button" class="testbtn btn btn-success">Relay 1</button>
+                </div>
+                <div class="my-buttons" id="ranges" style="margin-left: 0px;padding-right: 5px;">
+                    <button id="relay2" type="button" class="testbtn btn btn-success">Relay 2</button>
+                </div>
+                <div class="my-buttons" id="ranges" style="margin-left: 0px;padding-right: 5px;">
+                    <button id="relay3" type="button" class="testbtn btn btn-success">Relay 3</button>
+                </div>
+                <div class="my-buttons" id="ranges" style="margin-left: 0px;padding-right: 5px;">
+                    <button id="relay4" type="button" class="testbtn btn btn-success">Relay 4</button>
+                </div>
+                <div class="my-buttons" id="ranges" style="margin-left: 0px;padding-right: 5px;">
+                    <label for="pulseStrength" class="form-label">Servo:</label>&nbsp;<label id="pulseStrength_label">50</label>&nbsp;<label>%</label>
+                    <input type="range" class="params form-range" min="0" max="100" step="10" data-id="pulseStrength" data-name="pulse">
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <script>
+    $(".form-range[data-id='pulseStrength']").on("change", function(event) {
+        let val = $(this).val();
+        let action = "servo_pulse";
+
+        sendDataHome(action, ["boardID", 255, "val", val]);
+    });
+
+    $('.testbtn').on("click", function(event) {
+        var rC = 'btn-success';
+        var aC = 'btn-danger';
+        var action;
+        if ($(this).hasClass('btn-success')) {
+            $(this).removeClass(rC).addClass(aC);
+            action = "relay_on";
+        } else {
+            $(this).removeClass(aC).addClass(rC);
+            action = "relay_off";
+        }
+        var id = parseInt($(this)[0].id.match(/(\d+)/)[0]);
+        sendDataHome(action, ["boardID", 255, "id", id]);
+    });
+
+    $(document).ready(function () {
+        if (!dev) {
+            dev = true;
+            sendDataHome("cancel", ["boardID", 255]);
+        }
+    });
+  </script>
+</body>
+</html>

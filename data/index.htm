@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="CPRD">
+	<meta name="google" content="notranslate">
+	<title>CPRD</title>
+
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+
+	<!-- Icons -->
+	<link rel="apple-touch-icon" sizes="180x180" href="dummy.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="dummy.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="dummy.png">
+	<meta name="msapplication-TileColor" content="#ee7a28">
+	<meta name="theme-color" content="#224873">
+  <meta name="author" content="Christian Baumgartner">
+  <meta name="description" content="Simulates vital systems">
+  <meta name="generator" content="Bootstrap 5.1">
+
+  <!-- Bootstrap core CSS -->
+  <link href="bootstrap.iframe.css" rel="stylesheet">
+  <script type="text/javascript" src="jquery.min.js"></script>
+
+<style>
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overscroll-behavior: contain;
+  }
+  
+  html {
+    height: -webkit-fill-available;
+  }
+  
+  html, body {
+      max-width: 100%;
+      max-height: 100%;
+      /*overflow-y: hidden;*/
+  }
+  
+  main {
+    display: flex;
+    flex-wrap: nowrap;
+    height: 100vh;
+    height: -webkit-fill-available;
+    max-height: 100vh;
+  }
+  
+  /* OWN */
+  @media (min-width: 576px)
+  .bd-example {
+      padding: 1.5rem;
+      margin-right: 0;
+      margin-left: 0;
+      border-width: 1px;
+      border-top-left-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;
+  }
+  
+  .bd-example {
+      position: relative;
+      padding: 1rem;
+      margin: 1rem -0.75rem 0;
+      margin-left: -2px;
+      /* border: solid #dee2e6; */
+      border-width: 1px 0 0;
+  }
+  
+  .my-buttons {
+    margin-top: 20px;
+    margin: 25px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .form-label {
+    margin-bottom: 0;
+  }
+
+  .my-iframe {
+    height: 100%;
+    width: 100%;
+  }
+  
+  #example {
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+  }
+  
+  .bd-example-modal-lg .modal-dialog{
+    display: table;
+    position: relative;
+    margin: 0 auto;
+    top: calc(50% - 24px);
+  }
+  
+  .bd-example-modal-lg .modal-dialog .modal-content{
+    background-color: transparent;
+    border: none;
+  }
+    
+  /* OWN */
+  
+  .b-example-divider {
+    flex-shrink: 0;
+    width: 0.1rem;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .1);
+    border: solid rgba(0, 0, 0, .15);
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+  }
+  
+  .bi {
+    vertical-align: -.125em;
+    pointer-events: none;
+    fill: currentColor;
+  }
+    
+  .dropdown-toggle { outline: 0; }
+  
+  .nav-flush .nav-link {
+    border-radius: 0;
+  }
+  
+  #dynamiccontent {
+    display: -webkit-flex;
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .bd-example {
+    height: 95%;
+    width: 100%;
+  }
+
+  .blink_me {
+    animation: blinker 1s linear infinite;
+  }
+
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  </style>
+</head>
+
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="heartbeat" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z"/>
+    </symbol>
+    <symbol id="home" viewBox="0 0 16 16">
+      <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+    </symbol>
+    <symbol id="settings" viewBox="0 0 16 16">
+      <path d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z"/>
+    </symbol>
+  </svg>
+
+  <main>
+    <div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;">
+      <ul id="treeit" class="nav nav-pills nav-flush flex-column mb-auto text-center">
+        <li class="nav-item">
+          <a href="#" data-page="home" class="active own-link nav-link py-3 border-bottom" aria-current="page" data-bs-toggle="tooltip" data-bs-placement="right">
+            <svg class="bi" width="24" height="24" role="img" aria-label="Home"><use xlink:href="#home"/></svg>
+          </a>
+        </li>
+      </ul>
+      <div class="dropdown border-top">
+        <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+          <svg class="bi" width="24" height="24" role="img" aria-label="Settings"><use xlink:href="#settings"></use></svg>
+        </a>
+        <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+          <li class="setting-hidden" style="display:none;"><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</a></li>
+          <li class="setting" style="display:none;"><a class="dropdown-item settingsButton" href="#">Settings</a></li>
+          <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a></li>
+          <li class="setting" style="display:none;"><hr class="dropdown-divider"></li>
+          <li class="setting-master" style="display:none;"><a class="dropdown-item updateButton">Update</a></li>
+          <li class="setting" style="display:none;"><a class="dropdown-item pingButton">Ping</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="b-example-divider"></div>
+    <!--<div id="dynamiccontent" style="height: 896px;overflow: hidden;"></div>-->
+    <div id="dynamiccontent"></div>
+    
+    <div id="modalDiv"></div>
+
+    <div id="spinning" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="fixed-bottom" style="left:70px">
+      <p class="text-center text-muted">© 2022 Christian Baumgartner</p>
+    </footer>
+  </main>
+  <script src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="tinysort.js"></script>
+  <script src="sidebars.js"></script>
+
+</body>
+</html>

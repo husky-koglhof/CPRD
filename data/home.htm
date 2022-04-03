@@ -1,0 +1,40 @@
+<div class="bd-example">
+  <h1 id="default" style="touch-action: pan-y; text-align:center;margin-top:100px;font-size: 40px;margin-left: -10px;">Cardiopulmonary Resuscitation Dummy</h2>
+    <!--Attrappe zur Herz-Lungen-Wiederbelebung-->
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    setTimeout(function() {
+      // NOT WORKING
+      $('#spinning').modal('hide');
+    }, 1000);
+
+    let TOUCH_TIMEOUT_MILLISECONDS = 500;
+    let touch_count = 0;
+    window.addEventListener('touchend', function (evt) {
+      touch_count += 1;
+
+      setTimeout(function () {
+        touch_count = 0
+      }, TOUCH_TIMEOUT_MILLISECONDS);
+      
+      if (touch_count === 3) {
+        if (evt.target.id == "default") {
+          console.log("loaded first");
+          loadFile($('#dynamiccontent'), "/test.htm");
+        }
+      }
+    });
+
+    window.addEventListener('click', function (evt) {
+      if (evt.detail === 3) {
+        if (evt.target.id == "default") {
+          console.log("loaded second");
+          loadFile($('#dynamiccontent'), "/test.htm");
+        }
+      }
+    });
+  });
+
+</script>

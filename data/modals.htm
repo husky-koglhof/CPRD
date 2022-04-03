@@ -1,0 +1,126 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-5 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <h2 class="fw-bold mb-0">Please login</h2>
+      </div>
+      <div class="modal-body p-5 pt-0">
+        <form class>
+          <div class="form-floating mb-3">
+            <input type="username" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com">
+            <label for="floatingInput">Username</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+          </div>
+          <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Login</button>
+          <small class="text-muted">By clicking login, you agree to the terms of use.</small>
+          <hr class="my-4">
+        </form>
+      </div>
+    </div>        
+  </div>
+</div>
+
+<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content rounded-6 shadow">
+      <div class="modal-body p-5">
+        <h2 class="fw-bold mb-0">What's this</h2>
+
+        <ul class="d-grid gap-4 my-5 list-unstyled">
+          <li class="d-flex gap-4">
+            <div>
+              <h5 class="mb-0">Developed by</h5>
+              © 2022 Christian Baumgartner
+            </div>
+          </li>
+          <li class="d-flex gap-4">
+            <div>
+              <h5 class="mb-0">Version</h5>
+              firmware: %FIRMWARE_VERSION%<br>
+              spiffs: %SPIFFS_VERSION%
+            </div>
+          </li>
+          <li class="d-flex gap-4">
+            <div>
+              <h5 class="mb-0">Thanks to</h5>
+              <a href="https://github.com/ayushsharma82/AsyncElegantOTA.git/">AsyncElegantOTA</a><br>
+              <a href="https://madhephaestus.github.io/ESP32Servo/annotated.html/">ESP32Servo</a><br>
+              <a href="https://github.com/esphome/ESPAsyncWebServer.git">AsyncWebserver</a><br>
+              <a href="https://arduinojson.org/">ArduionJson</a><br>
+              <a href="https://getbootstrap.com/">Bootstrap</a><br>
+              <a href="https://jquery.com/">jQuery</a><br>
+              <a href="https://github.com/Sjeiti/TinySort">TinySort</a><br>
+              <a href="https://www.flaticon.com">Icons created by Freepik - Flaticon</a>
+            </div>
+          </li>
+          <li class="d-flex gap-4">
+            <div>
+              <h5 class="mb-0">License</h5>
+              GNU General Public License
+            </div>
+          </li>
+        </ul>
+        <button type="button" class="btn btn-lg btn-primary mt-5 w-100" data-bs-dismiss="modal">Great, thanks!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="newPersonModal" tabindex="-1" aria-labelledby="newPersonModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newPersonModalLabel">Give me a short name</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="person-name" class="col-form-label">Name:</label>
+          <input type="text" class="form-control" id="person-name">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-danger" data-bs-dismiss="modal">Cancel</button>
+        <button id="saveNewPerson" type="button" class="btn btn-primary btn-success" data-bs-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="yesNoReset" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Konfiguration zurücksetzen</h5>
+      </div>
+      <div class="modal-body">
+        <p>Möchtest Du wirklich die Konfiguration zurücksetzen?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-class="yesNo" data-id="Yes" class="btn btn-danger" data-bs-dismiss="modal">Ja</button>
+        <button type="button" data-class="yesNo" data-id="No" class="btn btn-success" data-bs-dismiss="modal">Nein</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="yesNoReboot" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Neustart</h5>
+      </div>
+      <div class="modal-body">
+        <p>Möchtest Du wirklich neustarten?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-class="yesNo" data-id="Yes" class="btn btn-danger" data-bs-dismiss="modal">Ja</button>
+        <button type="button" data-class="yesNo" data-id="No" class="btn btn-success" data-bs-dismiss="modal">Nein</button>
+      </div>
+    </div>
+  </div>
+</div>

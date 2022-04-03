@@ -1,0 +1,184 @@
+<div class="bd-example bd-examples">
+  <div id="battery" class="fs-2 mb-3" style="height:30px;"></div>
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom: 10px;">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pulse-btn" data-bs-toggle="tab" data-bs-target="#pulse-tab" type="button" role="tab" aria-controls="pulse-tab" aria-selected="false"><img style="height:23px;" src="heart-attack.png"></button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="cycle-btn" data-bs-toggle="tab" data-bs-target="#cycle-tab" type="button" role="tab" aria-controls="cycle-tab" aria-selected="true"><img style="height:23px;" src="cycle.png"></button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="lungs-btn" data-bs-toggle="tab" data-bs-target="#lungs-tab" type="button" role="tab" aria-controls="lungs-tab" aria-selected="false"><img style="height:23px;" src="lungs.png"></button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="thermometer-btn" data-bs-toggle="tab" data-bs-target="#thermometer-tab" type="button" role="tab" aria-controls="thermometer-tab" aria-selected="false"><img style="height:23px;" src="thermometer.png"></button>
+    </li>
+    <li class="nav-item" role="presentation" style="display: none;">
+      <button class="nav-link" disabled aria-disabled="true" id="question-btn" data-bs-toggle="tab" data-bs-target="#question-tab" type="button" role="tab" aria-controls="question-tab" aria-selected="false"><img style="height:23px;" src="question.png"></button>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="pulse-tab" role="tabpanel" aria-labelledby="pulse-tab">
+      <input class="params" type="hidden"  data-id="person" data-name="pulse">
+      <select class="params form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="person">
+        <option selected="">Bitte wähle...</option>
+      </select>
+      <div class="my-buttons" id="ranges" style="margin-left: 0px;padding-right: 5px;display:none">
+        <label for="pulseStrength" class="form-label">Stärke des Puls:</label>&nbsp;<label id="pulseStrength_label"></label>&nbsp;<label>%</label>
+        <input type="range" class="params form-range" min="0" max="100" step="10" data-id="pulseStrength" data-name="pulse">
+        <label for="pulseTimeGap" class="form-label">Abstand 1. und 2. Puls:</label>&nbsp;<label id="pulseTimeGap_label"></label>&nbsp;<label>ms</label>
+        <input type="range" class="params form-range" min="0" max="10" step="1" data-id="pulseTimeGap" data-name="pulse">
+        <label for="pulseFrequence" class="form-label">Pulsfrequenz:</label>&nbsp;<label id="pulseFrequence_label"></label>&nbsp;<label>bpm</label>
+        <input type="range" class="params form-range" min="0" max="240" step="5" data-id="pulseFrequence" data-name="pulse">
+        <label for="pulseFlicker" class="form-label">Flattern/Flimmern (Zufällig 0 bis </label>&nbsp;<label id="pulseFlicker_label"></label>&nbsp;<label>)</label>
+        <input type="range" class="params form-range" min="0" max="10" step="1" data-id="pulseFlicker" data-name="pulse">
+        <label for="pulseDuration" class="form-label">Aktivere Kreislauf für</label>&nbsp;<label id="pulseDuration_label"></label>&nbsp;<label>Minuten</label>
+        <input type="range" class="params form-range" min="0" max="10" step="1" data-id="pulseDuration" data-name="pulse">
+      </div>
+      <div class="my-buttons gap-2 col-6 mx-auto" style="display:flex !important; width: fit-content">
+        <button style="display:none" data-name="pulse" type="button" class="_save btn btn-success">Speichern</button>
+        <button style="display:none" data-name="pulse" type="button" class="_action btn btn-warning">Start</button>
+        <button style="display:none" data-name="pulse" type="button" class="_cancel btn btn-danger disabled">Abbrechen</button>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="cycle-tab" role="tabpanel" aria-labelledby="cycle-tab">
+      <div class="my-buttons" style="margin-left: 0px;padding-right: 5px;">
+        <label for="pumpStart" class="form-label">Starte Blut alle</label>&nbsp;<label id="pumpStart_label"></label>&nbsp;<label>Sekunden</label>
+        <input type="range" class="params form-range" min="0" max="60" step="1" data-id="pumpStart" data-name="cycle">
+        <label for="pumpDuration" class="form-label">Blut rinnt für</label>&nbsp;<label id="pumpDuration_label"></label>&nbsp;<label>Sekunden</label>
+        <input type="range" class="params form-range" min="0" max="60" step="1" data-id="pumpDuration" data-name="cycle">
+      </div>
+      <div class="my-buttons gap-2 col-6 mx-auto" style="display:flex !important; width: fit-content">
+        <button style="display:none" data-name="cycle" type="button" class="_save btn btn-success">Speichern</button>
+        <button style="display:none" data-name="cycle" type="button" class="_action btn btn-warning">Start</button>
+        <button style="display:none" data-name="cycle" type="button" class="_cancel btn btn-danger disabled">Abbrechen</button>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="thermometer-tab" role="tabpanel" aria-labelledby="thermometer-tab">
+      <div class="my-buttons" style="margin-left: 0px;padding-right: 5px;">
+        <label for="thermometerDuration" class="form-label">Temperatur läuft für</label>&nbsp;<label id="thermometerDuration_label"></label>&nbsp;<label>Sekunden</label>
+        <input type="range" class="params form-range" min="0" max="60" step="1" data-id="thermometerDuration" data-name="thermometer">
+      </div>
+      <div class="my-buttons gap-2 col-6 mx-auto" style="display:flex !important; width: fit-content">
+        <button style="display:none" data-name="thermometer" type="button" class="_save btn btn-success">Speichern</button>
+        <button style="display:none" data-name="thermometer" type="button" class="_action btn btn-warning">Start</button>
+        <button style="display:none" data-name="thermometer" type="button" class="_cancel btn btn-danger disabled">Abbrechen</button>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="lungs-tab" role="tabpanel" aria-labelledby="lungs-tab">
+      <div class="my-buttons" style="margin-left: 0px;padding-right: 5px;">
+        <label for="lungStart" class="form-label">Starte Atmung alle</label>&nbsp;<label id="lungStart_label"></label>&nbsp;<label>Sekunden</label>
+        <input type="range" class="params form-range" min="0" max="60" step="1" data-id="lungStart" data-name="lung">
+        <label for="lungDuration" class="form-label">Atmung läuft für</label>&nbsp;<label id="lungDuration_label"></label>&nbsp;<label>Sekunden</label>
+        <input type="range" class="params form-range" min="0" max="60" step="1" data-id="lungDuration" data-name="lung">
+      </div>
+      <div class="my-buttons gap-2 col-6 mx-auto" style="display:flex !important; width: fit-content">
+        <button style="display:none" data-name="lung" type="button" class="_save btn btn-success">Speichern</button>
+        <button style="display:none" data-name="lung" type="button" class="_action btn btn-warning">Start</button>
+        <button style="display:none" data-name="lung" type="button" class="_cancel btn btn-danger disabled">Abbrechen</button>
+      </div>
+    </div>
+
+
+    <div class="tab-pane fade" id="question-tab" role="tabpanel" aria-labelledby="question-tab">question</div>
+  </div>
+</div>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="heartbeat" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z"/>
+  </symbol>
+</svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="wifi_full" viewBox="0 0 16 16">
+    <path d="M15.384 6.115a.485.485 0 0 0-.047-.736A12.444 12.444 0 0 0 8 3C5.259 3 2.723 3.882.663 5.379a.485.485 0 0 0-.048.736.518.518 0 0 0 .668.05A11.448 11.448 0 0 1 8 4c2.507 0 4.827.802 6.716 2.164.205.148.49.13.668-.049z"/>
+    <path d="M13.229 8.271a.482.482 0 0 0-.063-.745A9.455 9.455 0 0 0 8 6c-1.905 0-3.68.56-5.166 1.526a.48.48 0 0 0-.063.745.525.525 0 0 0 .652.065A8.46 8.46 0 0 1 8 7a8.46 8.46 0 0 1 4.576 1.336c.206.132.48.108.653-.065zm-2.183 2.183c.226-.226.185-.605-.1-.75A6.473 6.473 0 0 0 8 9c-1.06 0-2.062.254-2.946.704-.285.145-.326.524-.1.75l.015.015c.16.16.407.19.611.09A5.478 5.478 0 0 1 8 10c.868 0 1.69.201 2.42.56.203.1.45.07.61-.091l.016-.015zM9.06 12.44c.196-.196.198-.52-.04-.66A1.99 1.99 0 0 0 8 11.5a1.99 1.99 0 0 0-1.02.28c-.238.14-.236.464-.04.66l.706.706a.5.5 0 0 0 .707 0l.707-.707z"/>
+  </symbol>
+
+  <symbol id="wifi_half" viewBox="0 0 16 16">
+    <path d="M13.229 8.271c.216-.216.194-.578-.063-.745A9.456 9.456 0 0 0 8 6c-1.905 0-3.68.56-5.166 1.526a.48.48 0 0 0-.063.745.525.525 0 0 0 .652.065A8.46 8.46 0 0 1 8 7a8.46 8.46 0 0 1 4.577 1.336c.205.132.48.108.652-.065zm-2.183 2.183c.226-.226.185-.605-.1-.75A6.473 6.473 0 0 0 8 9c-1.06 0-2.062.254-2.946.704-.285.145-.326.524-.1.75l.015.015c.16.16.408.19.611.09A5.478 5.478 0 0 1 8 10c.868 0 1.69.201 2.42.56.203.1.45.07.611-.091l.015-.015zM9.06 12.44c.196-.196.198-.52-.04-.66A1.99 1.99 0 0 0 8 11.5a1.99 1.99 0 0 0-1.02.28c-.238.14-.236.464-.04.66l.706.706a.5.5 0 0 0 .708 0l.707-.707z"/>
+  </symbol>
+
+  <symbol id="wifi_low" viewBox="0 0 16 16">
+    <path d="M11.046 10.454c.226-.226.185-.605-.1-.75A6.473 6.473 0 0 0 8 9c-1.06 0-2.062.254-2.946.704-.285.145-.326.524-.1.75l.015.015c.16.16.407.19.611.09A5.478 5.478 0 0 1 8 10c.868 0 1.69.201 2.42.56.203.1.45.07.611-.091l.015-.015zM9.06 12.44c.196-.196.198-.52-.04-.66A1.99 1.99 0 0 0 8 11.5a1.99 1.99 0 0 0-1.02.28c-.238.14-.236.464-.04.66l.706.706a.5.5 0 0 0 .707 0l.708-.707z"/>
+  </symbol>
+</svg>
+
+<script>
+  $(document).ready(function () {
+    renderLiveData();
+
+    // handle actionButtons
+    if (window.nodes[boardID].pR) $('._action[data-name="pulse"]').html("Stop");
+    if (window.nodes[boardID].cR) $('._action[data-name="cycle"]').html("Stop");
+    if (window.nodes[boardID].lR) $('._action[data-name="lung"]').html("Stop");
+    if (window.nodes[boardID].tR) $('._action[data-name="thermometer"]').html("Stop");
+
+
+    function getData(name) {
+      let params = $('.params[data-name="' + name + '"]');
+      let array = [];
+      for (let i=0; i<params.length;i++) {
+        array.push(parseInt(params[i].value));
+      }
+      return array;
+    }
+
+    $('._cancel').on("click", function() {
+      let name = $(this).data("name");
+      let array = getData(name);
+      let params = $('.params[data-name="' + name + '"]');
+      for (let i=0; i<params.length;i++) {
+        let obj = $(params[i]);
+        let _default = obj.data("default")
+        obj.val(_default).change();
+      }
+      $('button[data-name="' + name + '"]._save').hide();
+      $('button[data-name="' + name + '"]._cancel').hide();
+    });
+
+    $('._save, ._action').on("click", function() {
+      let name = $(this).data("name");
+      let array = getData(name);
+      let action = this.classList[0];
+      if (action !== "_action") {
+        $('button[data-name="' + name + '"]._save').hide();
+        $('button[data-name="' + name + '"]._cancel').hide();
+      }
+      if (action == "_action") {
+        if ($(this).html() == "Start") {
+          action = "_start";
+          $(this).html("Stop");
+        } else {
+          action = "_stop";
+          $(this).html("Start");
+        }
+      }
+      sendDataHome(name + action, array);
+    });
+
+    setTimeout(function() {
+      $('#spinning').modal('hide');
+    }, 1000);
+
+    $('#person').empty();
+    $('#person').append(new Option("Bitte wähle...", -1));
+    $('#person option[value="-1"]').attr("disabled", true);
+
+    $('#person').append(new Option("Neu...", -2));
+    let cycle = window.nodes[boardID].P;
+    for (let i=0; i<cycle.length;i++) {
+      let name = cycle[i].n;
+      $('#person').append(new Option(name, i));
+    }
+
+    let value = window.nodes[boardID].pID;
+    $('#person').val(value).change();
+
+  });
+</script>

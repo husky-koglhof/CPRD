@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  .mb-3 {
+    padding-right: 5px;
+  }
+</style>
+</head>
+<body>
+  <div class="bd-example">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Board ID</span>
+      </div>
+      <input id="boardID" type="number" class="form-control" aria-label="BoardID" aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Voltage</span>
+      </div>
+      <input disabled type="number" class="form-control" aria-label="BoardID" aria-describedby="basic-addon1" id="VOLTAGE">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Percent</span>
+      </div>
+      <input disabled type="number" class="form-control" aria-label="BoardID" aria-describedby="basic-addon1" id="PERCENTAGE">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <span class="input-group-texts" id="basic-addon1">SSID</span>&nbsp;
+          <input type="checkbox" data-id="checkSSID" aria-label="Checkbox for following text input">
+        </div>
+      </div>
+      <input disabled type="text" class="form-control" data-id="ownSSID" aria-label="BoardID" aria-describedby="basic-addon1" id="SSID">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Password</span>
+      </div>
+      <input disabled type="text" class="form-control" aria-label="BoardID" aria-describedby="basic-addon1" id="SSID_PASSWORD">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Username</span>
+      </div>
+      <input disabled type="text" class="form-control" aria-label="BoardID" aria-describedby="basic-addon1" id="DEFAULT_USER">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Password</span>
+      </div>
+      <input disabled type="text" class="form-control" aria-label="BoardID" aria-describedby="basic-addon1" id="DEFAULT_PASSWORD">
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <button id="settingsave" type="button" class="btn btn-success">Save</button>
+          <button id="reset" type="button" class="btn btn-warning">Reset</button>
+          <button id="reboot" type="button" class="btn btn-danger">Reboot</button>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+  <script>
+    cbx = "%SSID_CHECKED%";
+    if (cbx === '1') {
+      $("[data-id='checkSSID']")[0].checked = true;
+      $("[data-id='ownSSID']").removeAttr("disabled");
+    }
+
+    $('#VOLTAGE').val(parseInt("%VOLTAGE%")/1000);
+    $('#PERCENTAGE').val(parseInt("%PERCENTAGE%"));
+    $('#SSID').val("%SSID%");
+    $('#SSID_PASSWORD').val("%SSID_PASSWORD%");
+    $('#DEFAULT_USER').val("%DEFAULT_USER%");
+    $('#DEFAULT_PASSWORD').val("%DEFAULT_PASSWORD%");
+
+    if (boardID == 0) {
+      $('#boardID').val("%BOARDID%");
+    } else {
+      $('#boardID').val(boardID);
+    }
+    $('#settingsave').on("click", function() {
+      sendDataHome("save", ["boardID", parseInt($('#boardID').val()), $("[data-id='checkSSID']")[0].checked, $("[data-id='ownSSID']").val()]);
+    });
+
+    $('#reset').on("click", function(event) {
+      $('#yesNoReset').modal('show');
+    });
+    $('#reboot').on("click", function() {
+      $('#yesNoReboot').modal('show');
+    });
+  </script>
+</body>
+</html>

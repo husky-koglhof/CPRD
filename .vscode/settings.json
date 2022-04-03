@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "*.h": "cpp",
+        "*.tcc": "cpp",
+        "ratio": "cpp",
+        "system_error": "cpp",
+        "array": "cpp",
+        "functional": "cpp",
+        "regex": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "string": "cpp",
+        "algorithm": "cpp",
+        "bitset": "cpp",
+        "deque": "cpp",
+        "vector": "cpp",
+        "string_view": "cpp",
+        "unordered_map": "cpp"
+    }
+}
