@@ -376,7 +376,7 @@ extern "C" void ServerPulseTask(void *pvParameters) {
 }
 
 extern "C" void ServerLukeTask(void *pvParameters) {
-  int beats[] = {3,3,3,2,5,3,3,3,3,3,2,5};
+  int beats[] = {3,3,2,4,3,3,3,3,3,3,4};
   int cnt = 0;
   bool toggle = true;
   configData.pulseRunning = true;
@@ -398,7 +398,7 @@ extern "C" void ServerLukeTask(void *pvParameters) {
 }
 
 extern "C" void ServerXMasTask(void *pvParameters) {
-  int beats[] = {2,2,4, 2,2,4, 2,2,2,1,4, 2,2,3, 1,2,2,3, 1,2,2,2,2,4}; //,4
+  int beats[] = {2,2,4, 2,2,4, 2,2,2,1,4, 2,2,3, 1,2,2,3, 1,2,2,2,2,4};
   int cnt = 0;
   bool toggle = true;
   configData.pulseRunning = true;

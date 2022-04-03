@@ -4,3 +4,8 @@
 .vscode/launch.json
 .vscode/ipch
 __pycache__
+data/settings
+data/node
+data/home
+data/update
+data/*.gz

@@ -171,13 +171,55 @@ Die Programmierung erfolgt mittels Visual Studio Code und PlatformIO.
 todo
 ```
 
+#### Python Webserver
+
+```bash
+cd data
+gzip -d *.gz
+ln -s settings.htm settings
+ln -s iframe.htm node
+ln -s home.htm home
+ln -s config.json update
+python3 -m http.server 80
+```
+
 #### Bin Dateien erzeugen (OTA Update)
 
-> Note: `to be` defined.
+```bash
+gzip -9 data/*.js; gzip -9 data/*.css
+$HOME/.platformio/penv/bin/platformio run --target buildfs --environment esp32dev
+$HOME/.platformio/penv/bin/platformio runplatformio run
+```
 
 ## Issues
 
-Derzeit kommt es vereinzelt zu Ausfällen wenn der Puls gestartet wird. Es wird ein Neustart des Boards durchgeführt.
+Siehe [Issues](https://github.com/husky-koglhof/CPRD/issues)
+
+## Internals
+
+Für die Kommunikation zwischen den Boards wird [ESP-Now](https://www.espressif.com/en/products/software/esp-now/overview) verwendet.
+
+Beim Start eines Boards wird geprüft ob die SSID (EEPROM) bereits vorhanden ist.
+
+* Wenn ja, wird das Board an diese SSID als Client verbunden
+* Wenn nein, wird ein AccessPoint (AP) mit dieser SSID gestartet
+
+Sollte das "Master" Board nicht mehr verfügbar sein (z.B. Stromausfall), kann durch neustart eines beliebigen Boards ein neuer "Master" definiert werden. Die anderen Boards verbinden sich automatisch an diesen als "Client".
+
+Im EEPROM (Adresse 1) sind folgende Daten abgelegt:
+
+```
+typedef struct eeprom_struct {
+    int boardID;
+    bool enableSSID;
+    String ssid;
+} eeprom_struct;
+```
+
+Die Standard Konfiguration liegt unter [/data/config.json](/data/config.json).
+Beim verändern und speichern von neuen Daten wird unter ```/data``` eine neue Datei ```config_new.json``` mit den veränderten Daten abgelegt.
+
+Wird über die Settings Seite ein Reset durchgeführt, wird der EEPROM auf den Standard zurückgesetzt und die Datei ```config_new.json``` entfernt.
 
 ## License
 

@@ -127,20 +127,6 @@ class CPRD {
                 ESP.restart();
             }
         }
-        /*
-        int getBoardID() {
-            if (BOARD_ID == 0) {
-                BOARD_ID = EEPROM.read(0);
-            }
-            return BOARD_ID;
-        }
-        void setBoardID(byte ID) {
-            BOARD_ID = ID;
-            EEPROM.write(0, BOARD_ID);
-            EEPROM.commit();
-        }
-        */
-
 
         eeprom_struct getEEPROM() {
             eeprom_struct eepromObj;
