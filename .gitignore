@@ -8,4 +8,4 @@ data/settings
 data/node
 data/home
 data/update
-# data/*.gz
+data/*.gz
