@@ -191,6 +191,10 @@ $HOME/.platformio/penv/bin/platformio run --target buildfs --environment esp32de
 $HOME/.platformio/penv/bin/platformio runplatformio run
 ```
 
+## Eastereggs
+
+Es sind 3 versteckte Funktionen vorhanden, findest Du sie? 👀️ 
+
 ## Issues
 
 Siehe [Issues](https://github.com/husky-koglhof/CPRD/issues)
