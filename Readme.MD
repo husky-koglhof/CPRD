@@ -1,8 +1,6 @@
-# Cardio pulmonaray resuscitation Dummy (CPRD)
+# Cardio pulmonary resuscitation Dummy (CPRD)
 
-## CPRD ist eine Simulations Hard- und Software welche dafür eingesetzt werden kann um folgende Themen zu simulieren
-
-
+## CPRD ist eine Simulations Hard- bzw. Software welche dafür eingesetzt werden kann um folgende Themen zu simulieren
 
 - Blutkreislauf
   Es kann ein Relais für einen konfigurierbaren Zeitraum ein, bzw. ausgeschaltet werden.
@@ -59,11 +57,12 @@ Sollte ein Board einen zu geringen Batteriestatus haben, wird dies am jeweiligen
 
 * Batterie < 90% = GELB
 * Batterie < 80% = ROT
-  
-  ![Home](images/home.png)
+
+![Home](images/home.png)
 
 Sollten Boards nicht mehr aktiv sein (z.B. ausser Reichweite, Batterie leer), werden diese
 im linken Baum als "ausgegraut" dargestellt:
+
 ![Orphaned](images/orphaned.png)
 
 ### Menü
@@ -71,8 +70,6 @@ im linken Baum als "ausgegraut" dargestellt:
 Über das Menü links unten können folgende Seiten geöffnet werden.
 Dies funktioniert nur bei ausgewähltem Board, da diese Seiten Echtzeitdaten verwenden.
 ![Menu](images/menu.png)
-
-#### 
 
 ##### Settings
 
@@ -85,6 +82,13 @@ In dieser Seite können folgende Parameter konfiguriert werden:
 
 ![Menu](images/settings_default.png)
 
+* Save
+  Speichern der Daten im EEPROM
+* Reset
+  Zurückstellen aller Einstellungen auf den Auslieferungszustand (Board wird neu gestartet)
+* Reboot
+  Board wird neu gestartet
+
 ##### About
 
 Anzeige der aktuellen Versionen bzw. der zusätzlich verwendeten Software.
@@ -94,7 +98,7 @@ Anzeige der aktuellen Versionen bzw. der zusätzlich verwendeten Software.
 ##### Update
 
 Um ein Board aktualisieren zu können, muss es zwingend als "Master" Board aktiv sein.
-Für die Aktualisierung der Software wird
+Für die Aktualisierung der Software wird die Auswahl
 
 * Firmware
   und
@@ -117,7 +121,7 @@ Somit können die einzelnen Boards aufgefunden werden.
 
 ## Anschlüsse
 
-Das System besitzt folgende Anschlüsse (derzeit aktiviert):
+Das System besitzt folgende Anschlüsse (derzeit aktiviert/programmiert):
 
 * USB Laden
   Hierfür kann ein handelsübliches USB Ladegerät verwendet werden.
@@ -139,6 +143,15 @@ Das System besitzt folgende Anschlüsse (derzeit aktiviert):
 
 ![Pinout](images/board.png)
 
+* Folgende Pins sind derzeit schon auf dem Board vorhanden aber noch nicht aktiv im Einsatz:
+  * Relais 4 (Frei)
+  * 5 Volt (+/-)
+  * 3 Volt (+/-)
+  * MISO, MOSI, SS, SCK (z.B. um eine SD Karte anzuschliessen)
+  * SDA, SCL (z.B. für externe Sensoren [Temperatur, Luftfeuchte])
+  * GPIO1 (TXD)
+  * GPIO3 (RXD)
+
 ## Development
 
 Die Programmierung erfolgt mittels Visual Studio Code und PlatformIO.
@@ -151,9 +164,12 @@ todo
 
 > Note: `to be` defined.
 
+## Issues
+
+Derzeit kommt es vereinzelt zu Ausfällen wenn der Puls gestartet wird. Es wird ein Neustart des Boards durchgeführt.
+
 ## License
 
-GPL
+GPL v2
 
 **Free Software, Hell Yeah!**
-
