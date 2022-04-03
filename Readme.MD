@@ -69,6 +69,7 @@ im linken Baum als "ausgegraut" dargestellt:
 
 Über das Menü links unten können folgende Seiten geöffnet werden.
 Dies funktioniert nur bei ausgewähltem Board, da diese Seiten Echtzeitdaten verwenden.
+
 ![Menu](images/menu.png)
 
 ##### Settings
