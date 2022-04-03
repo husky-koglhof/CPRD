@@ -8,7 +8,6 @@
 #include <config.h>
 #include <ESP32Servo.h>
 #include <SPIFFS.h>
-// #include <Arduino_JSON.h>
 #include <ArduinoJson.h>
 
 #define EEPROM_SIZE 64
@@ -48,7 +47,6 @@ typedef struct eeprom_struct {
 //Must match the receiver structure
 typedef struct struct_message {
     int id;
-    /* NEW */
     int pulseID;
     int pulseStrength;
     int pulseTimeGap;
@@ -62,7 +60,7 @@ typedef struct struct_message {
     int thermometerDuration;
     int32_t rssi;
     float voltage;
-    int action; // 0=save, 1=ping, 2=reboot
+    int action;
     int readingId;
     bool mode = false;
     bool pulseRunning = false;
@@ -70,7 +68,6 @@ typedef struct struct_message {
     bool lungRunning = false;
     bool thermometerRunning = false;
     bool pingRunning = false;
-    // Only needed to send data to client
     bool enableSSID;
     String SSID;
 } struct_message;
@@ -97,7 +94,6 @@ class CPRD {
         int x = sizeof(pulse_config);
     public:
         struct_message loadedConfig;
-        // JSONVar pulseConfig = undefined;
 
         CPRD();
         ~CPRD();
@@ -121,9 +117,6 @@ class CPRD {
                 Serial.println("ESPNow Init Success");
             } else {
                 Serial.println("ESPNow Init Failed");
-                // Retry InitESPNow, add a counte and then restart?
-                // InitESPNow();
-                // or Simply Restart
                 ESP.restart();
             }
         }
@@ -266,6 +259,5 @@ class CPRD {
         }
 };
 
-// void handleMessage(JSONVar json);
 void handleMessage(JsonObject json);
 #endif

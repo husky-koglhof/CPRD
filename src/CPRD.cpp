@@ -63,14 +63,10 @@ String processor(const String& var) {
 }
 
 void CPRD::sendData(uint8_t broadcastAddress[6]) {
-  // All Data are created on handleWebSocketMessage -> sendDataToNode
   bool exists = esp_now_is_peer_exist(slave.peer_addr);
-  if ( exists) {
-    // Slave already paired.
-    // Serial.println("Already Paired");
-  } else {
-    slave.channel = DEFAULT_CHANNEL; // pick a channel
-    slave.encrypt = 0; // no encryption
+  if ( !exists) {
+    slave.channel = DEFAULT_CHANNEL;
+    slave.encrypt = 0;
     for (int ii = 0; ii < 6; ++ii ) {
       slave.peer_addr[ii] = (uint8_t) broadcastAddress[ii];
     }
@@ -79,7 +75,6 @@ void CPRD::sendData(uint8_t broadcastAddress[6]) {
     esp_err_t addStatus = esp_now_add_peer(&slave);
     if (addStatus == ESP_OK) {
       // Pair success
-      // Serial.println("Pair success");
     } else if (addStatus == ESP_ERR_ESPNOW_NOT_INIT) {
       // How did we get so far!!
       Serial.println("ESPNOW Not Init");
@@ -100,12 +95,10 @@ void CPRD::sendData(uint8_t broadcastAddress[6]) {
   if (!isClient()) {
     Serial.print("SEND DATA TO ID: ");Serial.println(nodeData.id);
     result = esp_now_send(broadcastAddress, (uint8_t *) &nodeData, sizeof(nodeData));
-    // sendDataToWS(nodeData.id, nodeData);
   } else {
     result = esp_now_send(broadcastAddress, (uint8_t *) &configData, sizeof(configData));
-    // sendDataToWS(configData.id, configData);
   }
-  // Serial.print("Send Status: ");
+
   if (result == ESP_OK) {
     // Serial.println("Success");
   } else if (result == ESP_ERR_ESPNOW_NOT_INIT) {
@@ -140,27 +133,14 @@ void CPRD::sendDataToServer() {
     configData.pulseStrength = all_pulse_configs[configData.pulseID].pulseStrength;
     configData.pulseTimeGap = all_pulse_configs[configData.pulseID].pulseTimeGap;
   }
-  // Serial.print("Board: ");Serial.print(configData.id);Serial.print(", RSSI: ");Serial.print(configData.rssi);Serial.print(", Volt: ");Serial.println(configData.voltage);
-  // Serial.print("Ping: ");Serial.print(configData.pingRunning);
-  // Serial.print(", Puls: ");Serial.print(configData.pulseRunning);
-  // Serial.print(", Cylce: ");Serial.print(configData.cycleRunning);
-  // Serial.print(", Lung: ");Serial.print(configData.lungRunning);
-  // Serial.print(", Thermometer: ");Serial.println(configData.thermometerRunning);
   sendData(peer_addr);
 }
 
-// callback function that will be executed when data is received
 void OnServerDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int len) { 
-  // Copies the sender mac address to a string
   char macStr[18];
-  // Serial.print("Server Packet: ");
   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  // Serial.println(macStr);
   memcpy(&incomingReadings, incomingData, sizeof(incomingReadings));
-
-  // Serial.print(incomingReadings.action);Serial.print(",");
-  // Serial.print(incomingReadings.id);Serial.println("");
 
   if (incomingReadings.id != cprd_local.getEEPROM().boardID) {
     return;
@@ -180,14 +160,6 @@ void OnServerDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int
     array[3] = incomingReadings.pulseFrequence;
     array[4] = incomingReadings.pulseTrouble;
     array[5] = incomingReadings.pulseDuration;
-    /*
-    0: 4  = pulseID
-    1: 30 = pulseStrength
-    2: 1  = pulseTimeGap
-    3: 60 = pulseFrequence
-    4: 0  = pulseTrouble
-    5: 10 = pulseDuration
-    */
   } else if (incomingReadings.action == LUNG_SAVE || incomingReadings.action == LUNG_START || incomingReadings.action == LUNG_STOP) {
     array[0] = incomingReadings.lungStart;
     array[1] = incomingReadings.lungDuration;
@@ -205,17 +177,11 @@ void OnServerDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int
   handleMessage(dataForWS);
 }
 
-// callback function that will be executed when data is received
 void OnClientDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int len) {
-  // Copies the sender mac address to a string
   char macStr[18];
-  // Serial.print("Client Packet: ");
   snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
            mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
-  // Serial.print(macStr);
   memcpy(&incomingReadings, incomingData, sizeof(incomingReadings));
-
-  // Serial.print(" --> Board: ");Serial.print(incomingReadings.id);Serial.print(", RSSI: ");Serial.print(incomingReadings.rssi);Serial.print(", Volt: ");Serial.println(incomingReadings.voltage);
 
   bool found = false;
   for(int i = 0; i < cnt; i++) {
@@ -244,24 +210,20 @@ CPRD::~CPRD() {
     Serial.println("init x class");EEPROM.begin(EEPROM_SIZE);
 }
 
-// config AP SSID
 void configDeviceAP() {
   String ssid = DEFAULT_SSID;
   eeprom_struct eepromObj = cprd_local.getEEPROM();
   if (eepromObj.enableSSID) {
     ssid = eepromObj.ssid;
   }
-  // bool result = WiFi.softAP(DEFAULT_SSID, DEFAULT_SSID_PASS, DEFAULT_CHANNEL, 0);
   bool result = WiFi.softAP(ssid.c_str(), DEFAULT_SSID_PASS, DEFAULT_CHANNEL, 0);
   if (!result) {
     Serial.println("AP Config failed.");
   } else {
-    // Serial.println("AP Config Success. Broadcasting with AP: " + String(DEFAULT_SSID));
     Serial.println("AP Config Success. Broadcasting with AP: " + String(ssid));
   }
 }
 
-// callback when data is sent
 void OnDataSend(const uint8_t *mac_addr, esp_now_send_status_t status) {
   // Serial.print("\r\nLast Packet Send Status:\t");
   // Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
@@ -721,19 +683,10 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
   AwsFrameInfo *info = (AwsFrameInfo*)arg;
   if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
     data[len] = 0;
-    // coming from settings has always id:0
-    // {"id":0,"action":"save","data":["boardID","255"]}
-    // {"id":1,"action":"pulse_start" "data":[8, 10, 1, 145]}
-    // {"id":1,"action":"pulse_save" "data":[8, 10, 1, 145]}
-    // id: boardID
-    // action: pulse|cycle|lung|thermometer + _start|_save
-    // data: array
     Serial.print("handleWebSocketMessage: ");Serial.println((char*)data);
-    // JSONVar json = JSON.parse((char*)data);
     StaticJsonDocument<512> doc;
     deserializeJson(doc, (char*)data);
     JsonObject obj = doc.as<JsonObject>();
-    // handleMessage(json);
     handleMessage(obj);
   }
 }
@@ -758,7 +711,6 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
 
 void CPRD::sendDataToWS(byte ID, struct_message data) {
   DynamicJsonDocument doc(1512); // fixed size
-  // DynamicJsonDocument doc(1024); // fixed size
   JsonObject dataForWS = doc.to<JsonObject>();
 
   int pulseID = data.pulseID;
@@ -787,7 +739,6 @@ void CPRD::sendDataToWS(byte ID, struct_message data) {
 
   for (int i=0;i<20;i++) {
     if (all_pulse_configs[i].pulseID != 123) {
-      // Serial.println(all_pulse_configs[i].name);
       nested = array.createNestedObject();
       nested["n"] = all_pulse_configs[i].name; // name
       nested["s"] = all_pulse_configs[i].pulseStrength; // pulseStrength
@@ -807,7 +758,6 @@ void CPRD::sendDataToWS(byte ID, struct_message data) {
   }
 
   char   buffer[1512]; // create temp buffer
-  // char   buffer[1024]; // create temp buffer
   size_t len = serializeJson(dataForWS, buffer);  // serialize to buffer
   ws.textAll(buffer, len); // send buffer to web socket
   yield();
@@ -826,7 +776,7 @@ void CPRD::initServer() {
   // This is the mac address of the Slave in AP Mode
   Serial.print("AP MAC: "); Serial.println(WiFi.softAPmacAddress());
 
-  // initHardware(all_pulse_configs, &configData);
+  /*
   for (int i = 0; i<3; i++) {
     Serial.print(all_pulse_configs[i].pulseID);Serial.print(",");
     Serial.print(all_pulse_configs[i].pulseFrequence);Serial.print(",");
@@ -835,7 +785,7 @@ void CPRD::initServer() {
     Serial.print(all_pulse_configs[i].pulseStrength);Serial.print(",");
     Serial.print(all_pulse_configs[i].pulseTimeGap);Serial.println("");
   }
-
+  */
   // Configure itself
   cprdClients[0] = new CPRD(WiFi.softAPmacAddress());
 
@@ -929,15 +879,11 @@ void CPRD::initClient() {
 
   byte boardID = getEEPROM().boardID;
   Serial.print("Board ID: "); Serial.println(boardID);
-  // Dummy for now, must be set via webinterface settings
-  // setBoardID(1);
   if (boardID == 0) {
     Serial.println("Please start these node as master and set correct BOARD_ID");
     initialized = false;
     return;
   }
-
-  // initHardware(all_pulse_configs, &configData);
 
   // Init ESPNow with a fallback logic
   InitESPNow();
@@ -972,11 +918,9 @@ void CPRD::ScanForSlave() {
   bool slaveFound = 0;
   memset(&slave, 0, sizeof(slave));
 
-  // Serial.println("");
   if (scanResults == 0) {
     Serial.println("No WiFi devices in AP Mode found");
   } else {
-    // Serial.print("Found "); Serial.print(scanResults); Serial.println(" devices ");
     for (int i = 0; i < scanResults; ++i) {
       // Print SSID and RSSI for each device found
       String SSID = WiFi.SSID(i);
@@ -992,14 +936,13 @@ void CPRD::ScanForSlave() {
         Serial.print(")");
         Serial.println("");
       }
-      // delay(10);
+
       // Check if the current device starts with `Slave`
       String ssid = DEFAULT_SSID;
       eeprom_struct eepromObj = getEEPROM();
       if (eepromObj.enableSSID) {
         ssid = eepromObj.ssid;
       }
-      // if (SSID.indexOf(DEFAULT_SSID) == 0) {
       if (SSID.indexOf(ssid) == 0) {
         int mac[6];
         if ( 6 == sscanf(BSSIDstr.c_str(), "%x:%x:%x:%x:%x:%x",  &mac[0], &mac[1], &mac[2], &mac[3], &mac[4], &mac[5] ) ) {
@@ -1012,16 +955,12 @@ void CPRD::ScanForSlave() {
         slave.encrypt = 0; // no encryption
         configData.rssi = RSSI;
         slaveFound = 1;
-        // we are planning to have only one slave in this example;
-        // Hence, break after we find one, to be a bit efficient
         break;
       }
     }
   }
 
-  if (slaveFound) {
-    // Serial.println("Slave Found, processing..");
-  } else {
+  if (!slaveFound) {
     Serial.println("Slave Not Found, trying again.");
   }
 
@@ -1053,19 +992,16 @@ bool manageSlave() {
       deletePeer();
     }
 
-    // Serial.print("Slave Status: ");
     // check if the peer exists
     bool exists = esp_now_is_peer_exist(slave.peer_addr);
-    if ( exists) {
+    if ( exists ) {
       // Slave already paired.
-      // Serial.println("Already Paired");
       return true;
     } else {
       // Slave not paired, attempt pair
       esp_err_t addStatus = esp_now_add_peer(&slave);
       if (addStatus == ESP_OK) {
         // Pair success
-        // Serial.println("Pair success");
         return true;
       } else if (addStatus == ESP_ERR_ESPNOW_NOT_INIT) {
         // How did we get so far!!

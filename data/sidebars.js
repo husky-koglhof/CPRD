@@ -157,19 +157,16 @@ function loadFile(obj, page) {
 }
 $(document).ready(function () {
   setTimeout(function() {
-    // $('#modalDiv').load("/modals.htm");
     loadFile($('#modalDiv'), "/modals.htm");
   }, 500);
 
   $('#spinning').modal('show');
   
-  // $('#dynamiccontent').load("/home.htm");
   loadFile($('#dynamiccontent'), "/home.htm");
 
   $('.settingsButton').on("click", function(event) {
     $('#spinning').modal('show');
     $('#dynamiccontent').empty();
-    // $('#dynamiccontent').load("/settings");
     loadFile($('#dynamiccontent'), "/settings");
     $('.own-link').removeClass('active');
     hideModal(500);
@@ -222,7 +219,6 @@ $(document).ready(function () {
     let page = $(this).data("page");
     window.boardID = address;
 
-    // $('#dynamiccontent').load('/' + page);
     loadFile($('#dynamiccontent'), "/" + page);
     $('.own-link').removeClass('active');
     this.classList.add("active");
