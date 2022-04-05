@@ -7,7 +7,8 @@
 
 #include <SPIFFSEditor.h>
 #include <AsyncElegantOTA.h>
-#include <SPIFFS.h>
+#include <LITTLEFS.h>
+
 #include <ESP32Servo.h>
 
 CPRD cprd_local;
@@ -763,6 +764,8 @@ void CPRD::sendDataToWS(byte ID, struct_message data) {
   yield();
 }
 
+fs::LITTLEFSFS _roFS;
+
 void CPRD::initServer() {
   WiFi.mode(WIFI_AP_STA);
 
@@ -796,36 +799,50 @@ void CPRD::initServer() {
   // get recv packer info
   esp_now_register_recv_cb(OnClientDataRecv);
   esp_now_register_send_cb(OnDataSend);
+  
+  _roFS = fs::LITTLEFSFS();
+  _roFS.begin(true, "/roFS", 10, "spiffs1");
 
-  server.addHandler(new SPIFFSEditor(SPIFFS, DEFAULT_HTTP_USER, DEFAULT_HTTP_PASS));
+  server.addHandler(new SPIFFSEditor(_roFS, DEFAULT_HTTP_USER, DEFAULT_HTTP_PASS));
+
+  server.on("/reseteeprom", HTTP_GET, [](AsyncWebServerRequest *request) {
+    Serial.println("New Board, initialize...");
+    eeprom_struct eepromObj;
+    eepromObj.boardID = 255;
+    eepromObj.enableSSID =  false;
+    eepromObj.ssid = "CPRD";
+    cprd_local.setEEPROM(eepromObj);
+
+    request->send(_roFS, "/", String(), false);
+  });
 
   server.on("/settings", HTTP_GET, [](AsyncWebServerRequest *request) {
     if(!request->authenticate(DEFAULT_HTTP_USER, DEFAULT_HTTP_PASS))
         return request->requestAuthentication();
-    request->send(SPIFFS, "/settings.htm", String(), false , processor);
+    request->send(_roFS, "/settings.htm", String(), false , processor);
   });
 
   server.on("/sidebars.js", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/sidebars.js", String(), false , processor);
+    request->send(_roFS, "/sidebars.js", String(), false , processor);
   });
 
   server.on("/node", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/iframe.htm", String(), false , processor);
+    request->send(_roFS, "/iframe.htm", String(), false , processor);
   });
 
   server.on("/modals.htm", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/modals.htm", String(), false , processor);
+    request->send(_roFS, "/modals.htm", String(), false , processor);
   });
 
   server.on("/home", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/home.htm", String(), false);
+    request->send(_roFS, "/home.htm", String(), false);
   });
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(SPIFFS, "/index.htm", String(), false);
+    request->send(_roFS, "/index.htm", String(), false);
   });
 
-  server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.htm").setCacheControl("max-age=2592000"); // 30d
+  server.serveStatic("/", _roFS, "/").setDefaultFile("index.htm").setCacheControl("max-age=2592000"); // 30d
 
   server.onNotFound([](AsyncWebServerRequest *request){
     Serial.printf("NOT_FOUND: ");
@@ -868,7 +885,7 @@ void CPRD::initServer() {
   
   ws.onEvent(onEvent);
   server.addHandler(&ws);
-  AsyncElegantOTA.begin(&server, ROOT_USER, ROOT_PASS);    // Start ElegantOTA
+  AsyncElegantOTA.begin(&server, ROOT_USER, ROOT_PASS, "spiffs1");    // Start ElegantOTA
   server.begin();
 
   initialized = true;

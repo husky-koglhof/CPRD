@@ -7,7 +7,8 @@
 #include <EEPROM.h>
 #include <config.h>
 #include <ESP32Servo.h>
-#include <SPIFFS.h>
+#include <LITTLEFS.h>
+
 #include <ArduinoJson.h>
 
 #define EEPROM_SIZE 64
@@ -92,9 +93,13 @@ class CPRD {
         void initServer();
         void initClient();
         int x = sizeof(pulse_config);
-    public:
-        struct_message loadedConfig;
 
+        fs::LITTLEFSFS rwFS = fs::LITTLEFSFS();
+        fs::LITTLEFSFS roFS = fs::LITTLEFSFS();
+    public:
+
+        struct_message loadedConfig;
+        
         CPRD();
         ~CPRD();
         CPRD(String _macAddr){macAddress = _macAddr;};
@@ -140,7 +145,9 @@ class CPRD {
         }
 
         void removeConfig() {
-            SPIFFS.remove("/config_new.json");
+            rwFS.begin(true, "/rwFS", 10, "spiffs0");
+            rwFS.remove("/config_new.json");
+            rwFS.end();
         }
 
         void writeDataBack(struct_message *_ownData, pulse_config all_pulse_configs[]) {
@@ -172,12 +179,14 @@ class CPRD {
                 }
             }
 
-            File configFile = SPIFFS.open("/config_new.json", "w");
+            rwFS.begin(true, "/rwFS", 10, "spiffs0");
+            File configFile = rwFS.open("/config_new.json", "w");
             if (serializeJsonPretty(doc, configFile) == 0) {
                 Serial.println(F("Failed to write to file"));
             }
 
             configFile.close();
+            rwFS.end();
         }
 
         void initHardware(pulse_config pulse_config_array[], struct_message *message) {
@@ -217,19 +226,28 @@ class CPRD {
             // digitalWrite(GPIO1, LOW);
             // digitalWrite(GPIO2, LOW);
 
-            SPIFFS.begin();
+            /* Multi Partitions */
+            rwFS.begin(true, "/rwFS", 10, "spiffs0");
+            Serial.println("rwFS mounted");
+            roFS.begin(true, "/roFS", 10, "spiffs1");
+            Serial.println("roFS mounted");
+
             File configFile;
-            if (SPIFFS.exists("/config_new.json")) {
-                configFile = SPIFFS.open("/config_new.json", "r");
+            if (rwFS.exists("/config_new.json")) {
+                Serial.println("additional config found");
+                configFile = rwFS.open("/config_new.json", "r");
             } else {
                 Serial.println("no additional config found, load default");
-                configFile = SPIFFS.open("/config.json", "r");
+                configFile = roFS.open("/config.json", "r");
             }
+
             size_t filesize = configFile.size(); //the size of the file in bytes
             DynamicJsonDocument doc(filesize);
             DeserializationError error = deserializeJson(doc, configFile);
-            if (error)
+            if (error) {
                 Serial.println(F("Failed to read file, using default configuration"));
+                Serial.println(error.c_str());
+            }
 
             message->cycleDuration = doc["Blut"]["Durchlauf"];
             message->cycleStart = doc["Blut"]["Start"];
@@ -256,6 +274,8 @@ class CPRD {
                 }
             }
             configFile.close();
+            roFS.end();
+            rwFS.end();
         }
 };
 

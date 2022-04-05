@@ -9,3 +9,6 @@ data/node
 data/home
 data/update
 data/*.gz
+ptable.img
+mklittlefs
+littlefsbuilder.py
