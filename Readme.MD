@@ -232,14 +232,24 @@ spiffs1,data,spiffs,0x2a2000,1400K,
 ```
 
 ```bash
-# erase flash
-python3 $HOME/.platformio/packages/framework-espidf/tools/idf.py -p /dev/cu.SLAB_USBtoUART erase_flash
-# write new flash
-# todo
-# read out partition table
-python3 $HOME/.platformio/packages/framework-espidf@3.40300.0/components/esptool_py/esptool/esptool.py read_flash 0x8000 0xc00 ptable.img
+# read out old partition table
+python3 $HOME/.platformio/packages/framework-espidf@3.40300.0/components/esptool_py/esptool/esptool.py -p /dev/cu.SLAB_USBtoUART read_flash 0x8000 0xc00 ptable.img
 # partition to csv
 python3 $HOME/.platformio/packages/framework-espidf/components/partition_table/gen_esp32part.py ptable.img
+# erase filesystem
+$HOME/.platformio/penv/bin/platformio run --target erase --environment esp32dev
+# write new firmware
+$HOME/.platformio/penv/bin/platformio run --target upload
+# write new filesystem
+$HOME/.platformio/penv/bin/platformio run --target uploadfs --environment esp32dev
+#
+# create firmware incl. partitions.csv
+$HOME/.platformio/penv/bin/platformio run
+# create filesystem
+$HOME/.platformio/penv/bin/platformio run --target buildfs --environment esp32dev
+#
+# monitor
+$HOME/.platformio/penv/bin/platformio device monitor
 ```
 
 ## License
